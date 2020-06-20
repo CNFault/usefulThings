@@ -1,0 +1,89 @@
+.app {
+	display: inline-flex;
+	align-items: flex-end;
+	max-width: 98%;
+	width: 98%;
+	margin: 30px 30px 0 30px;
+}
+
+.vcolumn {
+	width: 70px;
+	height: 100px;
+	background: green;
+	border: #000 0.1px solid;
+}
+
+.vcolumn p {
+	text-align: center;
+	background: white;
+	padding: 0;
+	margin: 0;
+}
+
+.selected {
+	background: red;
+}
+
+.changed {
+	background: blue;
+}
+
+.instruction {
+	max-width: 45%;
+	margin: 30px 0 0 30px;
+	float: left;
+}
+
+.instruction_list_left {
+	list-style: none;
+	border-left: 10px solid #FC7574;
+	padding: 0;
+}
+
+.instruction_list_right{
+	list-style: none;
+	border-right: 10px solid #FC7574;
+	padding: 0;
+}
+
+.instruction_list_left li, 
+.instruction_list_right li {padding: 10px;}
+.instruction_list_left li:nth-child(odd),
+.instruction_list_right li:nth-child(odd) {background: #E1F1FF; height: 30px;}
+.instruction_list_left li:nth-child(even),
+.instruction_list_right li:nth-child(even) {background: white; height: 30px;}
+
+.aa {
+	max-height: 33%;
+}
+
+.control-button {
+	padding: 10px 20px;
+	border: solid #FC7574 1px;
+	border-radius: 5px;
+	color: #FC7574;
+	background-color: #E1F1FF;
+	outline: none;
+	cursor: pointer;
+	transition: 1s;
+}
+
+.start {
+	margin: 0 0px 0 3px;
+}
+
+.control-button:focus, 
+.control-button:hover {
+	background-color: green;
+	color: #000;
+}
+
+.settings {
+	width: 50%;
+	margin: 30px 0 0 30px;
+	float: left;
+}
+
+.out-13{
+	float: left;
+}
