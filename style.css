@@ -1,19 +1,18 @@
 .app {
 	display: inline-flex;
 	align-items: flex-end;
-	max-width: 98%;
-	width: 98%;
-	margin: 30px 30px 0 30px;
+	width: 95%;
+	margin: 30px 20px 0 30px;
 }
 
-.vcolumn {
+.column {
 	width: 70px;
 	height: 100px;
 	background: green;
 	border: #000 0.1px solid;
 }
 
-.vcolumn p {
+.column p {
 	text-align: center;
 	background: white;
 	padding: 0;
@@ -30,7 +29,7 @@
 
 .instruction {
 	max-width: 45%;
-	margin: 30px 0 0 30px;
+	margin: 10px 0 0 30px;
 	float: left;
 }
 
@@ -49,13 +48,9 @@
 .instruction_list_left li, 
 .instruction_list_right li {padding: 10px;}
 .instruction_list_left li:nth-child(odd),
-.instruction_list_right li:nth-child(odd) {background: #E1F1FF; height: 30px;}
+.instruction_list_right li:nth-child(odd) {background: #E1F1FF; height: 27px;}
 .instruction_list_left li:nth-child(even),
-.instruction_list_right li:nth-child(even) {background: white; height: 30px;}
-
-.aa {
-	max-height: 33%;
-}
+.instruction_list_right li:nth-child(even) {background: white; height: 27px;}
 
 .control-button {
 	padding: 10px 20px;
@@ -80,10 +75,11 @@
 
 .settings {
 	width: 50%;
-	margin: 30px 0 0 30px;
+	margin: 10px 0 0 30px;
 	float: left;
 }
 
-.out-13{
-	float: left;
+.aniSpeedValue {
+	width: 200px;
 }
+
