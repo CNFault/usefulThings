@@ -1,91 +1,76 @@
 const startButton = document.querySelector('.start');
-const aniSpeed = document.querySelector('.i-13');
-document.querySelector('.arrayLengthConfirm').onclick = f4();
-
-function f4() {
-	arrayLength = document.querySelector('.i-14').value;
-	// location.reload(); // обновить страницу
-	return arrayLength
-} //не обновляется число столбцов после нажатия кнопки!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-const MAX_HEIGHT = 500; //макс высота самого большого столбца
-const MIN_HEIGHT = 50; //мин высота самого маленького столбца
-
-
-const generateScaleY = (min, max) => n => MIN_HEIGHT + (MAX_HEIGHT - MIN_HEIGHT) * ((n - min) / (max - min)); // нужно масштабировать колонки в каком-то пределе. 
-//его задаем через min max height
+const aniSpeed = document.querySelector('.aniSpeedValue');
+const MAX_HEIGHT = 500; //максимальная высота самого большого столбца
+const MIN_HEIGHT = 50; //минимальная высота самого маленького столбца
+const generateScaleY = (min, max) => n => MIN_HEIGHT + (MAX_HEIGHT - MIN_HEIGHT) * ((n - min) / (max - min)); // масштабируем колонки
 const appElement = document.querySelector('.app');
 
 const array = [];
 
-let aq = +prompt('Введите длину массива');
+let arrayLength = +prompt('Введите длину массива от 2 до 70');
 
-for (let i = 0; i < aq; i++) {
-	const index = Math.floor(Math.random() * 100)
-	const number = new ArrayColumn(i, index) //arrCol
-
-	array.push(number)
+while (arrayLength < 0 || arrayLength > 70 || isNaN(arrayLength)) { // проверяем, что пользователь ввел нужный тип данных 
+   alert('Пожалуйста, введите число в указанном диапазоне')
+   arrayLength = +prompt('Введите длину массива от 2 до 70');
 }
 
-document.querySelector('.initialData').innerHTML = array.map(x => x.index).join(', '); //не передает массив!!!!!!!!!!!!!!!!!!!!!!!!!
+for (let i = 0; i < arrayLength; i++) { // заполняем массив
+   const number = Math.floor(Math.random() * 100);
+   const arrCol = new ArrayColumn(i, number);
+   array.push(arrCol);
+}
 
+document.querySelector('.initialData').innerHTML = array.map(x => x.number).join(', '); // выводим изначальный массив на страницу
 
-const scaleY = generateScaleY(
-	Math.min(...array.map(x => x.index)), // ищем минимум из всего массива (спред для того чтобы в math.min передать массив)
-	Math.max(...array.map(x => x.index)) // ищем максимум из всего массива
+const scaleY = generateScaleY( // строки 25-30: ищем минимальное и максимальное числа. Для каждого элемента задаем высоту колонки
+   Math.min(...array.map(x => x.number)),
+   Math.max(...array.map(x => x.number))
 )
 
-array.forEach(number => number.view.style.height = `${scaleY(number.index)}px`); //для каждого элемента задаем высоту колонки
+array.forEach(arrCol => arrCol.view.style.height = `${scaleY(arrCol.number)}px`);
 
-appElement.append(...array.map(x => x.view)); //помещаем каждый столбец в дом!!!!!!!!!!!!!!
+appElement.append(...array.map(x => x.view)); //помещаем каждый столбец в DOM
 
-startButton.addEventListener('click', async () => {
-	startButton.disabled = true;
-	startButton.innerText = 'Ожидание...';
-	for (let i = 0; i < array.length; i++) {
-		for (let j = 0; j < array.length - 1 - i; j++) {
-			const columnLeft = array[j];
-			const columnRight = array[j + 1];
+startButton.addEventListener('click', async () => { // событие на кнопку startButton
+   startButton.disabled = true;
+   startButton.innerText = 'Ожидание...';
+   for (let i = 0; i < array.length; i++) { // строки 37-66: перебор, навешивание классов, сортировка, удаление классов, задержка в анимации
+      for (let j = 0; j < array.length - 1 - i; j++) {
+         const columnLeft = array[j];
+         const columnRight = array[j + 1];
 
-			columnLeft.view.classList.add('selected'); // двум сравниваемым элементам присваиваем класс selected
-			columnRight.view.classList.add('selected'); // двум сравниваемым элементам присваиваем класс selected
+         columnLeft.view.classList.add('selected');
+         columnRight.view.classList.add('selected');
 
-			await sleep((2000 - aniSpeed.value) / 2);
+         await sleep((2000 - aniSpeed.value) / 2);
 
-			if (columnLeft.index > columnRight.index) { // сравниваем i & i+1
-				columnLeft.view.classList.add('changed'); // при true элементам присваиваем класс changed
-				columnRight.view.classList.add('changed'); // при true элементам присваиваем класс changed
+         if (columnLeft.number > columnRight.number) {
+            columnLeft.view.classList.add('changed');
+            columnRight.view.classList.add('changed');
 
-				const orderA = columnLeft.order; //swap алгоритм
-				const orderB = columnRight.order;
+            const orderA = columnLeft.order;
+            const orderB = columnRight.order;
 
-				columnLeft.order = orderB;
-				columnRight.order = orderA;
-			}
+            columnLeft.order = orderB;
+            columnRight.order = orderA;
+         }
 
-			await sleep((2000 - aniSpeed.value) / 2);
+         await sleep((2000 - aniSpeed.value) / 2);
 
-			columnLeft.view.classList.remove('selected', 'changed'); // удаляем ранее присвоенные классы
-			columnRight.view.classList.remove('selected', 'changed'); // удаляем ранее присвоенные классы
+         columnLeft.view.classList.remove('selected', 'changed');
+         columnRight.view.classList.remove('selected', 'changed');
 
-			array.sort((a, b) => a.order - b.order); //одна копия сам массив, другая в дом дереве. Синхронизация видимой и программной части
-			document.querySelector('.finaleData').innerHTML = array.map(x => x.index).join(', ');
-
-		}
-
-	}
-
-	startButton.innerText = 'Готово';
+         array.sort((a, b) => a.order - b.order); // Синхронизация видимой и программной части
+         document.querySelector('.finaleData').innerHTML = array.map(x => x.number).join(', ');
+      }
+   }
+   startButton.innerText = 'Готово';
 })
 
-
 function sleep(n) { //приостанавливает выполнение кода на n мс
-	return new Promise(r => setTimeout(r, n))
+   return new Promise(r => setTimeout(r, n))
 }
 
 document.querySelector('.update').onclick = function () {
-	location.reload(); // обновить страницу
+   location.reload();
 }
-
-// классы, promise, наследование классов, паттерны, алгоритм сортировки
