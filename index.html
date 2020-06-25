@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+	<h1>Крестики-нолики (серия из 5 игр)</h1>
+
+
+	<div class="game_area_wrapper"></div>
+	<div class="game_result_area"></div>
+
+	<select name="firstPlayer">
+		<option value="human" selected>Человек</option>
+		<option value="computer">Компьютер</option>
+	</select>
+
+	<select name="secondPlayer">
+		<option value="human">Человек</option>
+		<option value="computer" selected>Компьютер</option>
+	</select>
+
+	<button>Start</button>
+
+	<ol></ol>
+	<div class="game_area_wrapper_result_tic"></div>
+	<div class="game_area_wrapper_result_tac"></div>
+
+
+
+	<script src="TicTac.js" type="text/javascript" defer></script>
+	<script src="script.js" type="text/javascript" defer></script>
+</body>
+
+</html>
